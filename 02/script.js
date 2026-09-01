@@ -23,7 +23,7 @@ scene.add( mesh );
 const camera = new THREE.PerspectiveCamera(75, viewSize.width / viewSize.height);
 /*
 相机的默认坐标是（0，0，0）。网格的坐标也是三维坐标系原点。
-    默认z轴方向是从屏幕指向自己的
+    默认z轴方向是朝向观察者，相机默认朝向 -z
     默认x轴方向是右边
     默认y轴方向是向上
  */

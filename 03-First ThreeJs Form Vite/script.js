@@ -6,7 +6,10 @@ console.log("THREE = ", THREE)
 const scene = new THREE.Scene();
 //2. 创建网格（2.1 创建几何图形；2.2创建材质）
 const geometry = new THREE.BoxGeometry();
-const meshBasicMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+/*
+wireframe: true —— Material 的配置项。可以显示目标几何体是由哪几个三角形构成的。
+ */
+const meshBasicMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000,});
 const mesh = new THREE.Mesh(geometry,meshBasicMaterial);
 scene.add(mesh);
 //3. 创建相机
@@ -28,3 +31,6 @@ const webGLRenderer = new THREE.WebGLRenderer({
 
 webGLRenderer.setSize(size.width,size.height)
 webGLRenderer.render(scene,perspectiveCamera);
+/*
+通过 npm 安装的 ThreeJs 无法使用轨道控制
+ */
