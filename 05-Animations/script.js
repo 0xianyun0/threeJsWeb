@@ -47,27 +47,46 @@ const webGLRenderer = new THREE.WebGLRenderer({
 
 webGLRenderer.setSize(size.width,size.height)
 
-let time = Date.now();
+
 /*
 通过帧的回调函数，来制作动画。
 window.requestAnimationFrame 每帧输出的重绘之前会被浏览器调用
  */
-const tick = ()=>{
-    const currentTime = Date.now();
-    const deltaTime = currentTime - time;
-    time = currentTime;
-    console.log(deltaTime)
+/*
+通过计算每帧之间的时间差，来对帧率动画进行补偿。
+    因为帧率越高，deltaTime 越小，此时转动角度也越小。
+    帧率越低，deltaTime 越大，此时转动角度越大。刚好可以补偿因帧率过低，而导致转动角度小的问题。
+ */
+//region 时间差补偿法
+// let time = Date.now();
+// const deltaTimeCompensationTick = ()=>{
+//     const currentTime = Date.now();
+//     const deltaTime = currentTime - time;
+//     time = currentTime;
+//     console.log(deltaTime)
+//
+//     console.log("tick is running")
+//     // mesh.position.x += 0.001
+//     // mesh.position.y += 0.001
+//     // mesh.position.z += 0.001
+//     // mesh.scale.x += 0.001
+//     mesh.rotation.x += 0.001 * deltaTime;
+//     //渲染
+//     webGLRenderer.render(scene,perspectiveCamera);
+//
+//     window.requestAnimationFrame(tick);
+// }
+// deltaTimeCompensationTick()
+//endregion
 
-    console.log("tick is running")
-    // mesh.position.x += 0.001
-    // mesh.position.y += 0.001
-    // mesh.position.z += 0.001
-    // mesh.scale.x += 0.001
-    mesh.rotation.x += 0.001 * deltaTime;
-    //渲染
-    webGLRenderer.render(scene,perspectiveCamera);
-
-    window.requestAnimationFrame(tick);
+//region THREE.clock()
+const clock = new THREE.Clock();
+const clockTick = () => {
+    const elapsedTime = clock.getElapsedTime();
+    console.log(elapsedTime)
+    mesh.rotation.y = elapsedTime;
+    webGLRenderer.render(scene, perspectiveCamera);
+    window.requestAnimationFrame( clockTick );
 }
-tick()
-
+clockTick();
+//endregion
