@@ -80,11 +80,18 @@ window.requestAnimationFrame 每帧输出的重绘之前会被浏览器调用
 //endregion
 
 //region THREE.clock()
-const clock = new THREE.Clock();
+const clock = new THREE.Clock();//每次初始化的时候，都会从0重新开始计时
 const clockTick = () => {
-    const elapsedTime = clock.getElapsedTime();
+    const elapsedTime = clock.getElapsedTime();//从 clock 中获取消逝的时间
     console.log(elapsedTime)
-    mesh.rotation.y = elapsedTime;
+    // mesh.rotation.y = elapsedTime;
+    //让几何体一秒中，以y轴为旋转轴，旋转一周。
+    /*
+    弧度和角度的关系：π 弧度 = 180°
+    弧度转角度：弧度 * （180° / π）
+    角度转弧度：角度 * （π / 180°）
+     */
+    mesh.rotation.y = elapsedTime * (Math.PI * 2);
     webGLRenderer.render(scene, perspectiveCamera);
     window.requestAnimationFrame( clockTick );
 }
